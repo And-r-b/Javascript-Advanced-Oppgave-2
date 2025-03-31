@@ -24,9 +24,9 @@ function addTodoHandler (e) {
     taskInput.value = "";
 
     if (!userInput) {
-        return alert("Todo tekst kan ikke være tom.");
+        return alert("Tekst kan ikke være tom.");
     } else if (userInput.lenght < 3) {
-        return alert("Todo tekst kan ikke være under 3 bokstaver.");
+        return alert("Tekst kan ikke være under 3 bokstaver.");
     }
 
     tasks.push({
