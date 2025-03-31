@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trening opplisting</title>
+    <title>Treningsøkt listing</title>
     <link rel="stylesheet" href="style.css">
     <script src="./list.js" defer></script>
 </head>
@@ -12,23 +12,54 @@
         <h1>Trenings Økt</h1>
         <form id="task-form">
             <input  
-                id="task-input"
-                name="task-input"
-                type="text"
-            >
+            id="task-input"
+            name="task-input"
+            type="text">
             <input type="submit">
         </form>
         <div id="menu">
             <label for="show-completed">Skriv in treningsøkten over</label>
             <input 
-                type="checkbox"
-                name="show-completed"
-                id="show-completed"
+            type="checkbox"
+            name="show-completed"
+            id="show-completed"
             >
         </div>
-    </header>
+        <button id="reset-button">Reset</button>
+        <p id="task-stats">Fullført: </p>
+
+        <div id="hamburger" class="hamburger">&#9776;</div>
+        </header>
+      <!-- Sidebar for username and training type -->
+      <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <button id="close-btn" class="close-btn">X</button>
+        </div>
+        
+        <form id="user-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+            <label for="training-type">Training Type:</label>
+            <select id="training-type" name="training-type">
+                <option value="cardio">Cardio</option>
+                <option value="strength">Strength</option>
+                <option value="yoga">Yoga</option>
+                <option value="pilates">Pilates</option>
+                <option value="other">Other</option>
+            </select>
+            
+            <button type="submit">Save</button>
+        </form>
+        <!-- User Info Display (hidden initially) -->
+        <div id="user-info" style="display: none;">
+            <p id="display-username"></p>
+            <p id="display-training-type"></p>
+            <button id="reset-user">Reset Info</button>
+        </div>
+    </div>
+    
     <main id="list-container">
         
     </main>
-</body>
 </html>
