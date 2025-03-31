@@ -57,6 +57,9 @@ function buildPage(taskArr) {
         const taskContainer = document.createElement("div");
         taskContainer.classList.add('task-container');
         task.completed ? taskContainer.classList.add('completed') : taskContainer.classList.remove('completed');
+        taskContainer.style.backgroundColor = "rgb(0, 255, 30)";
+        taskContainer.style.borderRadius = "10px";
+        taskContainer.style.boxShadow = "5px 5px";
         
         const timeStampElement = document.createElement('p');
         timeStampElement.classList.add('datetime');
