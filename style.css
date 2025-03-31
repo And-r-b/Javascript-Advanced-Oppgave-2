@@ -51,6 +51,17 @@ body {
     flex-direction: column;
 }
 
+.training-prompt {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#display-training-type {
+    display: block; /* Ensure it's displayed after saving */
+}
+
 #user-form label {
     margin-top: 10px;
 }
@@ -88,3 +99,5 @@ body {
 #reset-button {
     margin: 10px 0px 10px 0px;
 }
+
+

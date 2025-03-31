@@ -37,16 +37,16 @@
         </div>
         
         <form id="user-form">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <label for="username">Brukernavn</label>
+            <input type="text" id="username" name="username" placeholder="Skriv ditt brukernavn" required>
 
-            <label for="training-type">Training Type:</label>
+            <label for="training-type">Foretrukket trening:</label>
             <select id="training-type" name="training-type">
-                <option value="cardio">Cardio</option>
-                <option value="strength">Strength</option>
+                <option value="cardio">Kondisjon</option>
+                <option value="strength">Styrke</option>
                 <option value="yoga">Yoga</option>
                 <option value="pilates">Pilates</option>
-                <option value="other">Other</option>
+                <option value="other">Annet</option>
             </select>
             
             <button type="submit">Save</button>
@@ -57,9 +57,18 @@
         <!-- User Info Display (hidden initially) -->
         <div id="user-info" style="display: none;">
             <p id="display-username"></p>
-            <p id="display-training-type"></p>
+            <p id="display-training-type" style="display: none;"></p> <!-- Will appear after save -->
+            
+            <!-- Button to change training type -->
+            <button id="preferred-training-button" class="training-button" style="display: none;">Endre treningsvalg</button>
+            
             <button id="reset-user">Reset Info</button>
         </div>
+    </div>
+
+      <!-- GIF container -->
+    <div id="gif-container" style="display: none;">
+        <img id="training-gif" alt="Training GIF" style=" width: 250px"/>
     </div>
     
     <main id="list-container">

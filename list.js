@@ -12,7 +12,7 @@ const closeBtn = document.getElementById("close-btn");
 const userForm = document.getElementById("user-form");
 const usernameInput = document.getElementById("username");
 const trainingTypeInput = document.getElementById("training-type");
-const trainingoptionContainer = document.getElementById("training-options-container");
+const trainingOptionsContainer = document.getElementById("training-options-container");
 
 const userInfo = document.getElementById("user-info");
 const displayUsername = document.getElementById("display-username");
@@ -33,13 +33,34 @@ const saveUserDataToStorage = () => {
     localStorage.setItem("trainingType", trainingType);
 };
 
+const loadUserDataFromStorage = () => {
+    const savedUsername = localStorage.getItem("username");
+    const savedTrainingType = localStorage.getItem("trainingType");
+
+    if (savedUsername && savedTrainingType) {
+        // If saved data exists, display it
+        displayUsername.textContent = `Brukernavn: ${savedUsername}`;
+        displayTrainingType.textContent = `Foretrukket Trening: ${savedTrainingType}`;
+
+        // Ensure the training type is displayed
+        displayTrainingType.style.display = "block";
+        
+        // Hide the form and show the user info
+        userForm.style.display = "none";
+        userInfo.style.display = "block";
+
+        // Show training options based on saved training type
+        showTrainingOptions(savedTrainingType); // Show options immediately after load
+    }
+};
+
 // Training options
 const trainingOptions = {
-    cardio: ["Running", "Cycling", "Swimming", "HIIT"],
-    strength: ["Weightlifting", "Bodyweight Exercises", "Resistance Band Training"],
-    yoga: ["Hatha Yoga", "Vinyasa Yoga", "Ashtanga Yoga", "Restorative Yoga"],
+    cardio: ["Løping", "Sykling", "Svømming"],
+    strength: ["Vektløfting", "Kroppsvektøvelser", "Motstandsbåndstrening"],
+    yoga: ["Hatha Yoga", "Vinyasa Yoga", "Ashtanga Yoga", "Restorativ Yoga"],
     pilates: ["Mat Pilates", "Reformer Pilates"],
-    other: ["Custom Training"]
+    other: ["Egendefinert trening"]
 };
 
 // Event Listeners for Task Form and Reset Button
@@ -63,22 +84,38 @@ userForm.addEventListener("submit", (e) => {
     saveUserDataToStorage();
 
     // Display the saved info
-    displayUsername.textContent = `Username: ${usernameInput.value}`;
-    displayTrainingType.textContent = `Preferred Training: ${trainingTypeInput.value}`;
+    displayUsername.textContent = `Brukernavn: ${usernameInput.value}`;
+    displayTrainingType.textContent = `Foretrukket Trening: ${trainingTypeInput.value}`;
+
+    displayTrainingType.style.display = "block";
 
     // Hide the form and show the user info
     userForm.style.display = "none";
     userInfo.style.display = "block";
 
-    // Clear the input fields
-    usernameInput.value = "";
-    trainingTypeInput.value = "";
+    // Show training options dynamically after saving
+    showTrainingOptions(trainingTypeInput.value);
 
     // Close the sidebar after saving
     sidebar.style.left = "-300px";
 
-    // Show training options based on selected training type7
-    showTrainingOptions(trainingTypeInput.value);
+    // Clear the input fields
+    usernameInput.value = "";
+    trainingTypeInput.value = "";
+});
+
+document.getElementById("preferred-training-button").addEventListener("click", () => {
+    // Show a selector to change the training type
+    const newTrainingType = prompt("Velg ny trenings type (kondisjon, styrke, yoga, pilates, annet):");
+
+    // Update the training type in localStorage
+    localStorage.setItem("trainingType", newTrainingType);
+    
+    // Update the displayed training type
+    displayTrainingType.textContent = `Foretrukket Trening: ${newTrainingType}`;
+    
+    // Show new training options based on the new type
+    showTrainingOptions(newTrainingType);
 });
 
 // Reset user data and clear from localStorage
@@ -98,21 +135,7 @@ resetUserBtn.addEventListener("click", () => {
 
 // Load saved user data on page load (if available)
 window.addEventListener("load", () => {
-    const savedUsername = localStorage.getItem("username");
-    const savedTrainingType = localStorage.getItem("trainingType");
-
-    if (savedUsername && savedTrainingType) {
-        // If data exists in localStorage, display it
-        displayUsername.textContent = `Username: ${savedUsername}`;
-        displayTrainingType.textContent = `Preferred Training: ${savedTrainingType}`;
-        
-        // Hide the form and show the user info
-        userForm.style.display = "none";
-        userInfo.style.display = "block";
-
-        // Show training options based on selected training type
-        showTrainingOptions(savedTrainingType);
-    }
+    loadUserDataFromStorage();
 });
 
 // Show training options based on selected training type
@@ -120,10 +143,31 @@ function showTrainingOptions(trainingType) {
     // Clear current options
     trainingOptionsContainer.innerHTML = "";
 
+    // Reference the GIF container and image
+    const gifContainer = document.getElementById("gif-container");
+    const trainingGif = document.getElementById("training-gif");
+
+    // Define GIF paths for each training type
+    const gifSources = {
+        cardio: "cardio.gif",
+        strength: "strength.gif",
+        yoga: "yoga.gif",
+        pilates: "pilates.gif",
+        other: "other.gif"
+    };
+
+    // Update the GIF if a matching type is selected
+    if (gifSources[trainingType]) {
+        trainingGif.src = gifSources[trainingType];
+        gifContainer.style.display = "block";  // Show the GIF
+    } else {
+        gifContainer.style.display = "none";  // Hide the GIF if no match
+    }
+
     // Get options for the selected training type
     const options = trainingOptions[trainingType] || [];
 
-    // Create a select dropdown or radio buttons for the training options
+    // Create buttons for the training options
     options.forEach(option => {
         const optionElement = document.createElement("button");
         optionElement.textContent = option;
@@ -194,7 +238,7 @@ function buildPage(taskArr) {
 
             const timeStampElement = document.createElement("p");
             timeStampElement.classList.add("datetime");
-            timeStampElement.textContent = new Date(timestamp).toLocaleString("en-UK");
+            timeStampElement.textContent = new Date(timestamp).toLocaleString("nb-NO");
 
             const descriptionElement = document.createElement("p");
             descriptionElement.classList.add("description");
@@ -246,7 +290,7 @@ function renderPage() {
     const username = localStorage.getItem("username");
     const trainingType = localStorage.getItem("trainingType");
     if (username && trainingType) {
-        console.log(`User: ${username}, Training Type: ${trainingType}`);
+        console.log(`Bruker: ${username}, Treningsvalg: ${trainingType}`);
     }
 }
 
