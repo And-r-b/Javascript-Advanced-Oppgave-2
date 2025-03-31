@@ -12,6 +12,8 @@ const closeBtn = document.getElementById("close-btn");
 const userForm = document.getElementById("user-form");
 const usernameInput = document.getElementById("username");
 const trainingTypeInput = document.getElementById("training-type");
+const trainingoptionContainer = document.getElementById("training-options-container");
+
 const userInfo = document.getElementById("user-info");
 const displayUsername = document.getElementById("display-username");
 const displayTrainingType = document.getElementById("display-training-type");
@@ -29,6 +31,15 @@ const saveUserDataToStorage = () => {
     const trainingType = trainingTypeInput.value;
     localStorage.setItem("username", username);
     localStorage.setItem("trainingType", trainingType);
+};
+
+// Training options
+const trainingOptions = {
+    cardio: ["Running", "Cycling", "Swimming", "HIIT"],
+    strength: ["Weightlifting", "Bodyweight Exercises", "Resistance Band Training"],
+    yoga: ["Hatha Yoga", "Vinyasa Yoga", "Ashtanga Yoga", "Restorative Yoga"],
+    pilates: ["Mat Pilates", "Reformer Pilates"],
+    other: ["Custom Training"]
 };
 
 // Event Listeners for Task Form and Reset Button
@@ -65,6 +76,9 @@ userForm.addEventListener("submit", (e) => {
 
     // Close the sidebar after saving
     sidebar.style.left = "-300px";
+
+    // Show training options based on selected training type7
+    showTrainingOptions(trainingTypeInput.value);
 });
 
 // Reset user data and clear from localStorage
@@ -95,8 +109,34 @@ window.addEventListener("load", () => {
         // Hide the form and show the user info
         userForm.style.display = "none";
         userInfo.style.display = "block";
+
+        // Show training options based on selected training type
+        showTrainingOptions(savedTrainingType);
     }
 });
+
+// Show training options based on selected training type
+function showTrainingOptions(trainingType) {
+    // Clear current options
+    trainingOptionsContainer.innerHTML = "";
+
+    // Get options for the selected training type
+    const options = trainingOptions[trainingType] || [];
+
+    // Create a select dropdown or radio buttons for the training options
+    options.forEach(option => {
+        const optionElement = document.createElement("button");
+        optionElement.textContent = option;
+        optionElement.classList.add("training-option");
+
+        // Add click event to add the option to the task description
+        optionElement.addEventListener("click", () => {
+            taskInput.value = `${option} - `;
+        });
+
+        trainingOptionsContainer.appendChild(optionElement);
+    });
+}
 
 // Add task to the task array
 function addTodoHandler(e) {
